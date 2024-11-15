@@ -3,6 +3,7 @@
 """
 from flask import request
 from typing import List, TypeVar
+import jwt
 
 class Auth:
     """ Template for authentication system """
@@ -14,10 +15,17 @@ class Auth:
             path (str): the requested path
             excluded_paths (List[str]): a list of paths that don't require authentication
         Returns:
-            bool: False for now
+            bool: True if authentication is required, False if not
         """
-        # This method currently always returns False, meaning no authentication is required
-        return False
+        if path is None or not excluded_paths:
+            return True
+        
+        # Normalize path and excluded paths to be slash-tolerant
+        normalized_path = path.rstrip('/')
+        for excluded in excluded_paths:
+            if normalized_path == excluded.rstrip('/'):
+                return False
+        return True
 
     def authorization_header(self, request=None) -> str:
         """
@@ -25,10 +33,11 @@ class Auth:
         Args:
             request: the Flask request object
         Returns:
-            str: None for now
+            str: the Authorization header or None if not found
         """
-        # This method currently always returns None, meaning no authorization header is retrieved
-        return None
+        if request is None:
+            return None
+        return request.headers.get('Authorization', None)
 
     def current_user(self, request=None) -> TypeVar('User'):
         """
@@ -36,7 +45,18 @@ class Auth:
         Args:
             request: the Flask request object
         Returns:
-            TypeVar('User'): None for now
+            TypeVar('User'): None if no user is authenticated
         """
-        # This method currently always returns None, meaning no user is retrieved
-        return None
+        if request is None:
+            return None
+
+        auth_header = self.authorization_header(request)
+        if auth_header is None:
+            return None
+
+        try:
+            token = auth_header.split(" ")[1]  # Split "Bearer <token>"
+            decoded_token = jwt.decode(token, "your_secret_key", algorithms=["HS256"])
+            return decoded_token.get('user')  # Assuming the token contains user info
+        except (IndexError, jwt.ExpiredSignatureError, jwt.InvalidTokenError):
+            return None
