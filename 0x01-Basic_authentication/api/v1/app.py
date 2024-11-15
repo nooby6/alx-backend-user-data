@@ -34,3 +34,4 @@ if __name__ == "__main__":
 def forbidden(error) -> str:
     """ Forbidden handler """
     return jsonify({"error": "Forbidden"}), 403
+

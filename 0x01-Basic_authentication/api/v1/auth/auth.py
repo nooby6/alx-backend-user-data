@@ -9,18 +9,20 @@ class Auth:
     
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
         """
-        Determines if authentication is required
+        Determines if authentication is required.
+        
         Args:
-            path (str): the requested path
-            excluded_paths (List[str]): a list of paths that don't require authentication
+            path (str): The requested path.
+            excluded_paths (List[str]): A list of paths that don't require authentication.
+        
         Returns:
-            bool: True if authentication is required, False otherwise
+            bool: True if authentication is required, False otherwise.
         """
         # If path is None or excluded_paths is None or empty, authentication is required
         if path is None or excluded_paths is None:
             return True
 
-        # Remove trailing slashes for comparison
+        # Normalize the path by removing trailing slashes
         normalized_path = path.rstrip('/')
 
         # Check if the normalized path is in excluded_paths (also normalize each entry)
@@ -33,22 +35,27 @@ class Auth:
 
     def authorization_header(self, request=None) -> str:
         """
-        Retrieves the authorization header from the request
+        Retrieves the authorization header from the request.
+        
         Args:
-            request: the Flask request object
+            request: The Flask request object.
+        
         Returns:
-            str: None for now
+            str: The value of the authorization header, or None if it's not present.
         """
-        # This method currently always returns None, meaning no authorization header is retrieved
-        return None
+        if request is None or 'Authorization' not in request.headers:
+            return None
+        return request.headers['Authorization']
 
     def current_user(self, request=None) -> TypeVar:
         """
-        Retrieves the current user
+        Retrieves the current user.
+        
         Args:
-            request: the Flask request object
+            request: The Flask request object.
+        
         Returns:
-            TypeVar('User'): None for now
+            TypeVar('User'): This method should be overridden in subclasses. Defaults to None.
         """
-        # This method currently always returns None, meaning no user is retrieved
+        # This method should be overridden in subclasses to retrieve the actual user.
         return None
