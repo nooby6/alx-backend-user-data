@@ -42,7 +42,7 @@ class Auth:
         # This method currently always returns None, meaning no authorization header is retrieved
         return None
 
-    def current_user(self, request=None) -> TypeVar('User'):
+    def current_user(self, request=None) -> TypeVar:
         """
         Retrieves the current user
         Args:
