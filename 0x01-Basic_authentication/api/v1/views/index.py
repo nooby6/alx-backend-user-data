@@ -52,27 +52,40 @@ def forbidden() -> None:
 # Handle 404 errors
 @app.errorhandler(404)
 def not_found_error(error):
-    """ Custom handler for 404 errors """
+    """ Custom handler for 404 errors 
+    Return:
+      - JSON response with error message and 404 status code
+    """
     return jsonify({"error": "Not Found"}), 404
 
 # Handle 401 errors
 @app.errorhandler(401)
 def unauthorized_error(error):
-    """ Custom handler for 401 errors """
+    """ Custom handler for 401 errors 
+    Return:
+      - JSON response with error message and 401 status code
+    """
     return jsonify({"error": "Unauthorized"}), 401
 
 # Handle 403 errors
 @app.errorhandler(403)
 def forbidden_error(error):
-    """ Custom handler for 403 errors """
+    """ Custom handler for 403 errors 
+    Return:
+      - JSON response with error message and 403 status code
+    """
     return jsonify({"error": "Forbidden"}), 403
 
 # Handle internal server errors (500)
 @app.errorhandler(500)
 def internal_error(error):
-    """ Custom handler for 500 errors """
+    """ Custom handler for 500 errors 
+    Return:
+      - JSON response with error message and 500 status code
+    """
     return jsonify({"error": "Internal Server Error"}), 500
 
 # Main entry point to run the app
 if __name__ == "__main__":
+    # Run the Flask app on host 0.0.0.0 and port 5000
     app.run(host="0.0.0.0", port=5000)
