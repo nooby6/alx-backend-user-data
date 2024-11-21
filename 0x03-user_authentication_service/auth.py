@@ -119,3 +119,4 @@ class Auth:
             hashed_password=pwd,
             reset_token=None,
         )
+        
