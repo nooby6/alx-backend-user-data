@@ -109,20 +109,20 @@ class Base():
         return len(DATA[s_class].keys())
 
     @classmethod
-    def all(cls) -> Iterable[TypeVar('Base')]:
+    def all(cls) -> Iterable['Base']:
         """ Return all objects
         """
         return cls.search()
 
     @classmethod
-    def get(cls, id: str) -> TypeVar('Base'):
+    def get(cls, id: str) -> 'Base':
         """ Return one object by ID
         """
         s_class = cls.__name__
         return DATA[s_class].get(id)
 
     @classmethod
-    def search(cls, attributes: dict = {}) -> List[TypeVar('Base')]:
+    def search(cls, attributes: dict = {}) -> List['Base']:
         """ Search all objects with matching attributes
         """
         s_class = cls.__name__
