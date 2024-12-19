@@ -2,7 +2,7 @@
 """Basic Auth module for the API"""
 from api.v1.auth.auth import Auth
 import base64
-from typing import TypeVar
+from typing import TypeVar, Optional
 from models.user import User
 
 
@@ -47,7 +47,7 @@ class BasicAuth(Auth):
         return email, password
 
     def user_object_from_credentials(
-            self, user_email: str, user_pwd: str) -> TypeVar('User'):
+            self, user_email: str, user_pwd: str) -> Optional[User]:
         """Returns user object"""
         if user_email is None or not isinstance(user_email, str):
             return None
@@ -61,7 +61,7 @@ class BasicAuth(Auth):
                 return user
         return None
 
-    def current_user(self, request=None) -> TypeVar('User'):
+    def current_user(self, request=None) -> Optional[User]:
         """Rerurn request User instance"""
         if request is None:
             return None
